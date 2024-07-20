@@ -28,8 +28,14 @@ const Section1 = (): JSX.Element => {
                   bounceDamping: 10,
                   bounceStiffness: 600
                 },
+                x: {
+                  duration: 4,
+                  ease: 'easeIn',
+                  bounceDamping: 10,
+                  bounceStiffness: 600
+                },
                 rotate: {
-                  duration: 3,
+                  duration: 4.2,
                   ease: 'easeInOut'
                 }
               }}
@@ -39,12 +45,15 @@ const Section1 = (): JSX.Element => {
                   '15%',
                   '-150%',
                   '10%',
-                  '-125%',
+                  '-135%',
                   '5%',
-                  '-70%',
+                  '-130%',
+                  '0%',
+                  '-50%',
                   '0%'
                 ],
-                rotate: [45, 0, -90, -180, -90, 100, 280, 360]
+                x: ['-100%', '-100%', '-150%', '-150%', '-100%', '-150%', '0'],
+                rotate: [45, 0, -90, -180, -90, 180, 280, 280, 360]
               }}
             >
               C
