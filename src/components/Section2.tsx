@@ -1,5 +1,5 @@
-import { Variants, motion, useInView } from 'framer-motion';
-import { useEffect, useRef } from 'react';
+import { Variants, motion } from 'framer-motion';
+import { useState } from 'react';
 
 const gridContainerVariants: Variants = {
   hidden: { opacity: 0 },
@@ -12,10 +12,9 @@ const gridContainerVariants: Variants = {
 };
 
 const gridSquareVariants: Variants = {
-  hidden: { opacity: 0, y: 100 },
+  hidden: { opacity: 0 },
   show: {
     opacity: 1,
-    y: 0,
     transition: {
       duration: 1
     }
@@ -40,23 +39,16 @@ const box3Variants: Variants = {
 };
 
 const Section2 = (): JSX.Element => {
-  const container = useRef<HTMLDivElement>(null);
-  const isInView = useInView(container, { margin: '0px 0px -500px 0px' });
-
-  useEffect(() => {
-    console.log('Element is in view: ', isInView);
-  }, [isInView]);
+  const [showC, setShowC] = useState(false);
 
   return (
-    <div className=' w-full flex flex-col gap-10 p-5 md:p-10'>
-      {/* <IntersectionObserverWrapper margin={-250}> */}
+    <div className='w-full flex flex-col gap-10 p-5 md:px-10'>
       <motion.section
-        ref={container}
         variants={gridContainerVariants}
         initial='hidden'
         whileInView='show'
-        // viewport={{ once: true }}
-        className='grid grid-cols-2 md:grid-cols-3 p-2 md:p-10 gap-5 md:gap-10'
+        viewport={{ once: true }}
+        className='grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 md:p-10 gap-5 md:gap-10'
       >
         {/* Box 1 */}
         <motion.div
@@ -80,7 +72,7 @@ const Section2 = (): JSX.Element => {
         {/* Box 2 */}
         <motion.div
           variants={gridSquareVariants}
-          className='bg-foreground aspect-square rounded-lg flex-center gap-5 md:gap-10'
+          className='bg-foreground aspect-square rounded-lg flex-center'
         >
           <motion.div
             className='w-1/3 h-1/3 shadow-md'
@@ -124,17 +116,62 @@ const Section2 = (): JSX.Element => {
         <motion.div
           variants={gridSquareVariants}
           className='bg-foreground aspect-square rounded-lg flex-center gap-5 md:gap-10'
-        ></motion.div>
-        <motion.div
+        >
+          <motion.button
+            className=' w-40 h-10 rounded-lg bg-darklight text-copy text-lg font-bold'
+            transition={{
+              bounceDamping: 10,
+              bounceStiffness: 600,
+              ease: 'circInOut'
+            }}
+            whileTap={{ scale: 1 }}
+            whileHover={{ scale: 1.1, backgroundColor: '#8264b4', color: '#fff' }}
+            onClick={() => setShowC(true)}
+          >
+            <motion.span className='relative ml-1'>
+              lick me!
+              {showC && (
+                <motion.span
+                  className='absolute left-[-18.5%]'
+                  transition={{
+                    y: {
+                      duration: 3,
+                      ease: 'easeInOut',
+                      bounceDamping: 10,
+                      bounceStiffness: 600
+                    },
+                    x: {
+                      duration: 4,
+                      ease: 'easeIn',
+                      bounceDamping: 10,
+                      bounceStiffness: 600
+                    },
+                    rotate: {
+                      duration: 4.2,
+                      ease: 'easeInOut'
+                    }
+                  }}
+                  animate={{
+                    y: ['-250%', '15%', '-150%', '10%', '-135%', '5%', '-130%', '0%', '-50%', '0%'],
+                    x: ['-100%', '-100%', '-150%', '-150%', '-100%', '-150%', '0'],
+                    rotate: [45, 0, -90, -180, -90, 180, 280, 280, 360]
+                  }}
+                >
+                  C
+                </motion.span>
+              )}
+            </motion.span>
+          </motion.button>
+        </motion.div>
+        {/* <motion.div
           variants={gridSquareVariants}
           className='bg-foreground aspect-square rounded-lg flex-center gap-5 md:gap-10'
         ></motion.div>
         <motion.div
           variants={gridSquareVariants}
           className='bg-foreground aspect-square rounded-lg flex-center gap-5 md:gap-10'
-        ></motion.div>
+        ></motion.div> */}
       </motion.section>
-      {/* </IntersectionObserverWrapper> */}
     </div>
   );
 };

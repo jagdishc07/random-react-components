@@ -2,6 +2,7 @@ import { AnimatePresence, useAnimate, usePresence } from 'framer-motion';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { FiClock, FiPlus, FiTrash2 } from 'react-icons/fi';
 import { motion } from 'framer-motion';
+import moment from 'moment';
 
 const Section3 = () => {
   const [todos, setTodos] = useState<TODO[]>([
@@ -32,9 +33,7 @@ const Section3 = () => {
   ]);
 
   const handleCheck = (id: number) => {
-    setTodos((prev) =>
-      prev.map((t) => (t.id === id ? { ...t, checked: !t.checked } : t))
-    );
+    setTodos((prev) => prev.map((t) => (t.id === id ? { ...t, checked: !t.checked } : t)));
   };
 
   const removeElement = (id: number) => {
@@ -42,19 +41,10 @@ const Section3 = () => {
   };
 
   return (
-    <section
-      className='min-h-screen bg-zinc-950 py-24 relative'
-      style={{
-        backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' width='32' height='32' fill='none' stroke-width='2' stroke='%2318181b'%3e%3cpath d='M0 .5H31.5V32'/%3e%3c/svg%3e")`
-      }}
-    >
+    <section className='min-h-screen bg-zinc-950 py-24 relative'>
       <div className='mx-auto w-full max-w-xl px-4'>
         <Header />
-        <Todos
-          removeElement={removeElement}
-          todos={todos}
-          handleCheck={handleCheck}
-        />
+        <Todos removeElement={removeElement} todos={todos} handleCheck={handleCheck} />
       </div>
       <Form setTodos={setTodos} />
     </section>
@@ -62,9 +52,21 @@ const Section3 = () => {
 };
 
 const Header = () => {
+  function calculateGreeting() {
+    const currentHour = moment().hour();
+    let greeting;
+    if (currentHour < 12) {
+      greeting = 'Good morning! 🌄';
+    } else if (currentHour < 18) {
+      greeting = 'Good afternoon! ☀️';
+    } else {
+      greeting = 'Good evening! 🌆';
+    }
+    return greeting;
+  }
   return (
     <div className='mb-6'>
-      <h1 className='text-xl font-medium text-white'>Good morning! ☀️</h1>
+      <h1 className='text-xl font-medium text-white'>{calculateGreeting()}</h1>
       <p className='text-zinc-400'>Let's see what we've got to do today.</p>
     </div>
   );
@@ -163,11 +165,7 @@ const Form = ({ setTodos }: { setTodos: Dispatch<SetStateAction<TODO[]>> }) => {
         onClick={() => setVisible((pv) => !pv)}
         className='grid w-full place-content-center rounded-full border border-zinc-700 bg-zinc-900 py-3 text-lg text-white transition-colors hover:bg-zinc-800 active:bg-zinc-900'
       >
-        <FiPlus
-          className={`transition-transform ${
-            visible ? 'rotate-45' : 'rotate-0'
-          }`}
-        />
+        <FiPlus className={`transition-transform ${visible ? 'rotate-45' : 'rotate-0'}`} />
       </button>
     </div>
   );
@@ -272,7 +270,7 @@ const Todo = ({
     <motion.div
       ref={scope}
       layout
-      className='relative flex w-full items-center gap-3 rounded border border-zinc-700 bg-zinc-900 p-3'
+      className='relative flex m-3 items-center gap-3 rounded border border-zinc-700 bg-zinc-900 p-3'
     >
       <input
         type='checkbox'
@@ -281,11 +279,7 @@ const Todo = ({
         className='size-4 accent-indigo-400'
       />
 
-      <p
-        className={`text-white transition-colors ${checked && 'text-zinc-400'}`}
-      >
-        {children}
-      </p>
+      <p className={`text-white transition-colors ${checked && 'text-zinc-400'}`}>{children}</p>
       <div className='ml-auto flex gap-1.5'>
         <div className='flex items-center gap-1.5 whitespace-nowrap rounded bg-zinc-800 px-1.5 py-1 text-xs text-zinc-400'>
           <FiClock />
