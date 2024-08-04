@@ -42,13 +42,13 @@ const Section2 = (): JSX.Element => {
   const [showC, setShowC] = useState(false);
 
   return (
-    <div className='w-full flex flex-col gap-10 p-5 md:px-10'>
+    <div className='w-full flex justify-center items-center flex-col gap-10 p-5 md:px-10'>
       <motion.section
         variants={gridContainerVariants}
         initial='hidden'
         whileInView='show'
         viewport={{ once: true }}
-        className='grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 md:p-10 gap-5 md:gap-10'
+        className='grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 md:p-10 gap-5 md:gap-10 w-full max-w-[1600px]'
       >
         {/* Box 1 */}
         <motion.div
