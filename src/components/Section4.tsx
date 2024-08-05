@@ -35,7 +35,7 @@ function Counter({ value }: { value: number }) {
     animatedValue.set(value);
   }, [animatedValue, value]);
   return (
-    <div className='flex h-6 ring-2 ring-red-500 overflow-hidden'>
+    <div className='flex h-6 ring-2 ring-red-500'>
       <div className='relative w-6'>
         {[...Array(10).keys()].map((i) => (
           <Number place={100} mv={animatedValue} key={i} number={i} />
